@@ -39,66 +39,103 @@ export default function Home() {
     loadEntities();
   };
 
-  // 🔍 FILTER
-  const filteredEntities = entities.filter((e) =>
+  const filtered = entities.filter((e) =>
     e.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
-    <div style={{ padding: 30, maxWidth: 800, margin: "auto" }}>
-      <h1>Knowledge System</h1>
+    <div
+      style={{
+        background: "#0f172a",
+        minHeight: "100vh",
+        color: "white",
+        padding: 40,
+      }}
+    >
+      <div style={{ maxWidth: 800, margin: "auto" }}>
+        <h1 style={{ fontSize: 32, marginBottom: 20 }}>Knowledge System</h1>
 
-      <hr />
-
-      {/* CREATE */}
-      <div style={{ marginBottom: 20 }}>
-        <h3>Create Entity</h3>
-        <input
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{ marginRight: 10 }}
-        />
-        <input
-          placeholder="Type"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          style={{ marginRight: 10 }}
-        />
-        <button onClick={addEntity}>Add</button>
-      </div>
-
-      <hr />
-
-      {/* SEARCH */}
-      <div style={{ marginBottom: 20 }}>
-        <input
-          placeholder="Search..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{ width: "100%", padding: 8 }}
-        />
-      </div>
-
-      {/* LIST */}
-      <h2>Entities</h2>
-
-      {filteredEntities.map((e) => (
+        {/* CREATE CARD */}
         <div
-          key={e.id}
           style={{
-            padding: 10,
-            border: "1px solid #ddd",
-            borderRadius: 8,
-            marginBottom: 10,
+            background: "#1e293b",
+            padding: 20,
+            borderRadius: 12,
+            marginBottom: 20,
           }}
         >
-          <Link href={`/entity/${e.id}`}>
-            <strong>{e.name}</strong>
-          </Link>
-          <div style={{ color: "gray" }}>{e.type}</div>
+          <h3>Create Entity</h3>
+
+          <div style={{ marginTop: 10 }}>
+            <input
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              style={inputStyle}
+            />
+
+            <input
+              placeholder="Type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              style={inputStyle}
+            />
+
+            <button style={buttonStyle} onClick={addEntity}>
+              Add
+            </button>
+          </div>
         </div>
-      ))}
+
+        {/* SEARCH */}
+        <input
+          placeholder="Search entities..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            ...inputStyle,
+            width: "100%",
+            marginBottom: 20,
+          }}
+        />
+
+        {/* LIST */}
+        {filtered.map((e) => (
+          <Link key={e.id} href={`/entity/${e.id}`}>
+            <div style={cardStyle}>
+              <div style={{ fontSize: 18 }}>{e.name}</div>
+              <div style={{ color: "#94a3b8" }}>{e.type}</div>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
+
+// STYLES
+const inputStyle = {
+  padding: 10,
+  marginRight: 10,
+  borderRadius: 8,
+  border: "none",
+  background: "#0f172a",
+  color: "white",
+};
+
+const buttonStyle = {
+  padding: "10px 16px",
+  borderRadius: 8,
+  border: "none",
+  background: "#3b82f6",
+  color: "white",
+  cursor: "pointer",
+};
+
+const cardStyle = {
+  background: "#1e293b",
+  padding: 15,
+  borderRadius: 10,
+  marginBottom: 10,
+  cursor: "pointer",
+};
